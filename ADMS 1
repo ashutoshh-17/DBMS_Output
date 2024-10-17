@@ -1,1 +1,123 @@
+Name - Ashutosh Waghire
+Roll no - 54
+Batch - T4
+TE_IT
 
+rmdstic@rmdstic-OptiPlex-3010:~$ mongo
+MongoDB shell version v3.6.8
+connecting to: mongodb://127.0.0.1:27017
+Implicit session: session { "id" : UUID("2ee2f28a-79f1-4826-a6a0-ad0ea34ec2bb") }
+MongoDB server version: 3.6.8
+Server has startup warnings: 
+2024-10-14T09:32:13.980+0530 I STORAGE  [initandlisten] 
+2024-10-14T09:32:13.980+0530 I STORAGE  [initandlisten] ** WARNING: Using the XFS filesystem is strongly recommended with the WiredTiger storage engine
+2024-10-14T09:32:13.980+0530 I STORAGE  [initandlisten] **          See http://dochub.mongodb.org/core/prodnotes-filesystem
+2024-10-14T09:32:19.545+0530 I CONTROL  [initandlisten] 
+2024-10-14T09:32:19.545+0530 I CONTROL  [initandlisten] ** WARNING: Access control is not enabled for the database.
+2024-10-14T09:32:19.545+0530 I CONTROL  [initandlisten] **          Read and write access to data and configuration is unrestricted.
+2024-10-14T09:32:19.545+0530 I CONTROL  [initandlisten] 
+> show dbs
+Database  0.000GB
+Student   0.000GB
+admin     0.000GB
+config    0.000GB
+local     0.000GB
+> use Base\
+2024-10-14T12:42:57.946+0530 E QUERY    [thread1] SyntaxError: unterminated string literal @(shellhelp2):1:21
+> use Base
+switched to db Base
+> db.createCollection("Inventory")
+{ "ok" : 1 }
+> db.Inventory.insertMany([{Book_id:10,Book_name:"Panchal",Qty:3,Price:1000,Publication:"JK"},{Book_id:11,Book_name:"Mahabharat",Qty:10,Price:5000,Publication:"AK"},{Book_id:12,Book_name:"GOT",Qty:2,Price:2000,Publication:"VK"},{Book_id:13,Book_name:"Morning Bird",Qty:15,Price:2500,Publication:"PP"},{Book_id:14,Book_name:"Cricket",Qty:4,Price:8000,Publication:"KL"},{Book_id:15,Book_name:"Harry Potter",Qty:5,Price:3200,Publication:"LS"},{Book_id:16,Book_name:"Stree",Qty:8,Price:9000,Publication:"OP"}])
+{
+	"acknowledged" : true,
+	"insertedIds" : [
+		ObjectId("670cc630d36f2966b131836d"),
+		ObjectId("670cc630d36f2966b131836e"),
+		ObjectId("670cc630d36f2966b131836f"),
+		ObjectId("670cc630d36f2966b1318370"),
+		ObjectId("670cc630d36f2966b1318371"),
+		ObjectId("670cc630d36f2966b1318372"),
+		ObjectId("670cc630d36f2966b1318373")
+	]
+}
+> db.Inventory.find()
+{ "_id" : ObjectId("670cc630d36f2966b131836d"), "Book_id" : 10, "Book_name" : "Panchal", "Qty" : 3, "Price" : 1000, "Publication" : "JK" }
+{ "_id" : ObjectId("670cc630d36f2966b131836e"), "Book_id" : 11, "Book_name" : "Mahabharat", "Qty" : 10, "Price" : 5000, "Publication" : "AK" }
+{ "_id" : ObjectId("670cc630d36f2966b131836f"), "Book_id" : 12, "Book_name" : "GOT", "Qty" : 2, "Price" : 2000, "Publication" : "VK" }
+{ "_id" : ObjectId("670cc630d36f2966b1318370"), "Book_id" : 13, "Book_name" : "Morning Bird", "Qty" : 15, "Price" : 2500, "Publication" : "PP" }
+{ "_id" : ObjectId("670cc630d36f2966b1318371"), "Book_id" : 14, "Book_name" : "Cricket", "Qty" : 4, "Price" : 8000, "Publication" : "KL" }
+{ "_id" : ObjectId("670cc630d36f2966b1318372"), "Book_id" : 15, "Book_name" : "Harry Potter", "Qty" : 5, "Price" : 3200, "Publication" : "LS" }
+{ "_id" : ObjectId("670cc630d36f2966b1318373"), "Book_id" : 16, "Book_name" : "Stree", "Qty" : 8, "Price" : 9000, "Publication" : "OP" }
+> db.Inventory.find({Publication:"JK"})
+{ "_id" : ObjectId("670cc630d36f2966b131836d"), "Book_id" : 10, "Book_name" : "Panchal", "Qty" : 3, "Price" : 1000, "Publication" : "JK" }
+> db.Inventory.find({Price:{$gt:2000,$lt:10000}})
+{ "_id" : ObjectId("670cc630d36f2966b131836e"), "Book_id" : 11, "Book_name" : "Mahabharat", "Qty" : 10, "Price" : 5000, "Publication" : "AK" }
+{ "_id" : ObjectId("670cc630d36f2966b1318370"), "Book_id" : 13, "Book_name" : "Morning Bird", "Qty" : 15, "Price" : 2500, "Publication" : "PP" }
+{ "_id" : ObjectId("670cc630d36f2966b1318371"), "Book_id" : 14, "Book_name" : "Cricket", "Qty" : 4, "Price" : 8000, "Publication" : "KL" }
+{ "_id" : ObjectId("670cc630d36f2966b1318372"), "Book_id" : 15, "Book_name" : "Harry Potter", "Qty" : 5, "Price" : 3200, "Publication" : "LS" }
+{ "_id" : ObjectId("670cc630d36f2966b1318373"), "Book_id" : 16, "Book_name" : "Stree", "Qty" : 8, "Price" : 9000, "Publication" : "OP" }
+> db.Inventory.find({Qty:{$gt:5}})
+{ "_id" : ObjectId("670cc630d36f2966b131836e"), "Book_id" : 11, "Book_name" : "Mahabharat", "Qty" : 10, "Price" : 5000, "Publication" : "AK" }
+{ "_id" : ObjectId("670cc630d36f2966b1318370"), "Book_id" : 13, "Book_name" : "Morning Bird", "Qty" : 15, "Price" : 2500, "Publication" : "PP" }
+{ "_id" : ObjectId("670cc630d36f2966b1318373"), "Book_id" : 16, "Book_name" : "Stree", "Qty" : 8, "Price" : 9000, "Publication" : "OP" }
+> db.Inventory.find({Book_name:/bharat/i})
+{ "_id" : ObjectId("670cc630d36f2966b131836e"), "Book_id" : 11, "Book_name" : "Mahabharat", "Qty" : 10, "Price" : 5000, "Publication" : "AK" }
+> db.Inventory.find({Book_name:/potter/i})
+{ "_id" : ObjectId("670cc630d36f2966b1318372"), "Book_id" : 15, "Book_name" : "Harry Potter", "Qty" : 5, "Price" : 3200, "Publication" : "LS" }
+> db.Inventory.find({Price:[1000,8000,5000])
+... exit
+... ;
+... out
+... ^C
+
+> db.Inventory.find({Price:[1000,8000,5000]})
+> db.Inventory.find({Price:{$in:[1000,8000,5000]}})
+{ "_id" : ObjectId("670cc630d36f2966b131836d"), "Book_id" : 10, "Book_name" : "Panchal", "Qty" : 3, "Price" : 1000, "Publication" : "JK" }
+{ "_id" : ObjectId("670cc630d36f2966b131836e"), "Book_id" : 11, "Book_name" : "Mahabharat", "Qty" : 10, "Price" : 5000, "Publication" : "AK" }
+{ "_id" : ObjectId("670cc630d36f2966b1318371"), "Book_id" : 14, "Book_name" : "Cricket", "Qty" : 4, "Price" : 8000, "Publication" : "KL" }
+> db.Inventory.find().limit(3)
+{ "_id" : ObjectId("670cc630d36f2966b131836d"), "Book_id" : 10, "Book_name" : "Panchal", "Qty" : 3, "Price" : 1000, "Publication" : "JK" }
+{ "_id" : ObjectId("670cc630d36f2966b131836e"), "Book_id" : 11, "Book_name" : "Mahabharat", "Qty" : 10, "Price" : 5000, "Publication" : "AK" }
+{ "_id" : ObjectId("670cc630d36f2966b131836f"), "Book_id" : 12, "Book_name" : "GOT", "Qty" : 2, "Price" : 2000, "Publication" : "VK" }
+> db.Inventory.find($or:{{Publication:AK},{Price:1000}})
+2024-10-14T13:05:31.774+0530 E QUERY    [thread1] SyntaxError: missing ) after argument list @(shell):1:21
+> db.Inventory.find({$or:{{Publication:AK},{Price:1000}}})
+2024-10-14T13:05:40.038+0530 E QUERY    [thread1] SyntaxError: invalid property id @(shell):1:24
+> db.Inventory.find({$or:[{Publication:AK},{Price:1000}]})
+2024-10-14T13:07:15.015+0530 E QUERY    [thread1] ReferenceError: AK is not defined :
+@(shell):1:26
+> db.Inventory.find({$or:[{Publication:"AK"},{Price:1000}]})
+{ "_id" : ObjectId("670cc630d36f2966b131836d"), "Book_id" : 10, "Book_name" : "Panchal", "Qty" : 3, "Price" : 1000, "Publication" : "JK" }
+{ "_id" : ObjectId("670cc630d36f2966b131836e"), "Book_id" : 11, "Book_name" : "Mahabharat", "Qty" : 10, "Price" : 5000, "Publication" : "AK" }
+> db.Inventory.find().sort({_id:-1}).limit(3)
+{ "_id" : ObjectId("670cc630d36f2966b1318373"), "Book_id" : 16, "Book_name" : "Stree", "Qty" : 8, "Price" : 9000, "Publication" : "OP" }
+{ "_id" : ObjectId("670cc630d36f2966b1318372"), "Book_id" : 15, "Book_name" : "Harry Potter", "Qty" : 5, "Price" : 3200, "Publication" : "LS" }
+{ "_id" : ObjectId("670cc630d36f2966b1318371"), "Book_id" : 14, "Book_name" : "Cricket", "Qty" : 4, "Price" : 8000, "Publication" : "KL" }
+> db.Inventory.find().sort({_id:-1}).limit(4)
+{ "_id" : ObjectId("670cc630d36f2966b1318373"), "Book_id" : 16, "Book_name" : "Stree", "Qty" : 8, "Price" : 9000, "Publication" : "OP" }
+{ "_id" : ObjectId("670cc630d36f2966b1318372"), "Book_id" : 15, "Book_name" : "Harry Potter", "Qty" : 5, "Price" : 3200, "Publication" : "LS" }
+{ "_id" : ObjectId("670cc630d36f2966b1318371"), "Book_id" : 14, "Book_name" : "Cricket", "Qty" : 4, "Price" : 8000, "Publication" : "KL" }
+{ "_id" : ObjectId("670cc630d36f2966b1318370"), "Book_id" : 13, "Book_name" : "Morning Bird", "Qty" : 15, "Price" : 2500, "Publication" : "PP" }
+> db.Inventory.find({Price:{$ne:8000}})
+{ "_id" : ObjectId("670cc630d36f2966b131836d"), "Book_id" : 10, "Book_name" : "Panchal", "Qty" : 3, "Price" : 1000, "Publication" : "JK" }
+{ "_id" : ObjectId("670cc630d36f2966b131836e"), "Book_id" : 11, "Book_name" : "Mahabharat", "Qty" : 10, "Price" : 5000, "Publication" : "AK" }
+{ "_id" : ObjectId("670cc630d36f2966b131836f"), "Book_id" : 12, "Book_name" : "GOT", "Qty" : 2, "Price" : 2000, "Publication" : "VK" }
+{ "_id" : ObjectId("670cc630d36f2966b1318370"), "Book_id" : 13, "Book_name" : "Morning Bird", "Qty" : 15, "Price" : 2500, "Publication" : "PP" }
+{ "_id" : ObjectId("670cc630d36f2966b1318372"), "Book_id" : 15, "Book_name" : "Harry Potter", "Qty" : 5, "Price" : 3200, "Publication" : "LS" }
+{ "_id" : ObjectId("670cc630d36f2966b1318373"), "Book_id" : 16, "Book_name" : "Stree", "Qty" : 8, "Price" : 9000, "Publication" : "OP" }
+> db.Inventory.update({Book_name:"Panchal"{$set:{Qty:20}}})
+2024-10-14T13:12:26.399+0530 E QUERY    [thread1] SyntaxError: missing } after property list @(shell):1:40
+> db.Inventory.update({Book_name:"Panchal"},{$set:{Qty:20}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.Inventory.find({Book_name:"Panchal"})
+{ "_id" : ObjectId("670cc630d36f2966b131836d"), "Book_id" : 10, "Book_name" : "Panchal", "Qty" : 20, "Price" : 1000, "Publication" : "JK" }
+> db.Inventory.deleteOne({Book_id:16})
+{ "acknowledged" : true, "deletedCount" : 1 }
+> db.Inventory.find()
+{ "_id" : ObjectId("670cc630d36f2966b131836d"), "Book_id" : 10, "Book_name" : "Panchal", "Qty" : 20, "Price" : 1000, "Publication" : "JK" }
+{ "_id" : ObjectId("670cc630d36f2966b131836e"), "Book_id" : 11, "Book_name" : "Mahabharat", "Qty" : 10, "Price" : 5000, "Publication" : "AK" }
+{ "_id" : ObjectId("670cc630d36f2966b131836f"), "Book_id" : 12, "Book_name" : "GOT", "Qty" : 2, "Price" : 2000, "Publication" : "VK" }
+{ "_id" : ObjectId("670cc630d36f2966b1318370"), "Book_id" : 13, "Book_name" : "Morning Bird", "Qty" : 15, "Price" : 2500, "Publication" : "PP" }
+{ "_id" : ObjectId("670cc630d36f2966b1318371"), "Book_id" : 14, "Book_name" : "Cricket", "Qty" : 4, "Price" : 8000, "Publication" : "KL" }
+{ "_id" : ObjectId("670cc630d36f2966b1318372"), "Book_id" : 15, "Book_name" : "Harry Potter", "Qty" : 5, "Price" : 3200, "Publication" : "LS" }
