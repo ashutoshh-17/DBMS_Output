@@ -1,1 +1,302 @@
+Name - Ashutosh Waghire
+Roll no - 54
+Batch - T4
+TE_IT
 
+Microsoft Windows [Version 10.0.22631.4317]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\ASH>mongosh
+Current Mongosh Log ID: 670e02aaa3b03151b7c73bf7
+Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.3.1
+Using MongoDB:          8.0.0
+Using Mongosh:          2.3.1
+
+For mongosh info see: https://www.mongodb.com/docs/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2024-10-15T11:12:01.079+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+test> show dbs
+admin    40.00 KiB
+config  108.00 KiB
+local    80.00 KiB
+test> use demodb
+switched to db demodb
+demodb> db.sales.insertMany([
+... { "item": "apple", "quantity": 10, "price": 2.5, "region": "North" },
+... { "item": "orange", "quantity": 5, "price": 3, "region": "South" },
+... { "item": "apple", "quantity": 6, "price": 2.5, "region": "East" },
+... { "item": "orange", "quantity": 8, "price": 3, "region": "North" },
+... { "item": "apple", "quantity": 7, "price": 2.5, "region": "West" }
+... ])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('670e0314a3b03151b7c73bf8'),
+    '1': ObjectId('670e0314a3b03151b7c73bf9'),
+    '2': ObjectId('670e0314a3b03151b7c73bfa'),
+    '3': ObjectId('670e0314a3b03151b7c73bfb'),
+    '4': ObjectId('670e0314a3b03151b7c73bfc')
+  }
+}
+demodb> db.sales.aggregate([
+... {
+... $group: {
+... _id: "$item",
+... totalRevenue: { $sum: { $multiply: ["$quantity", "$price"] } }
+... }
+... }
+... ])
+[
+  { _id: 'apple', totalRevenue: 57.5 },
+  { _id: 'orange', totalRevenue: 39 }
+]
+demodb> db.sales.aggregate([
+... {
+... $group: {
+... _id: "$item",
+... totalRevenue: { $sum: { $multiply: ["$quantity", "$price"] } }
+... }
+... },
+... { $sort: { totalRevenue: -1 } }
+... ])
+[
+  { _id: 'apple', totalRevenue: 57.5 },
+  { _id: 'orange', totalRevenue: 39 }
+]
+demodb> db.sales.aggregate([
+... {
+... $match: {
+... item: "apple",
+... region: "North"
+... }
+... }
+... ]).pretty()
+[
+  {
+    _id: ObjectId('670e0314a3b03151b7c73bf8'),
+    item: 'apple',
+    quantity: 10,
+    price: 2.5,
+    region: 'North'
+  }
+]
+demodb> db.sales.aggregate([
+... {
+... $project: {
+... item: 1,
+... price: 1
+... }
+... }
+... ])
+[
+  {
+    _id: ObjectId('670e0314a3b03151b7c73bf8'),
+    item: 'apple',
+    price: 2.5
+  },
+  {
+    _id: ObjectId('670e0314a3b03151b7c73bf9'),
+    item: 'orange',
+    price: 3
+  },
+  {
+    _id: ObjectId('670e0314a3b03151b7c73bfa'),
+    item: 'apple',
+    price: 2.5
+  },
+  {
+    _id: ObjectId('670e0314a3b03151b7c73bfb'),
+    item: 'orange',
+    price: 3
+  },
+  {
+    _id: ObjectId('670e0314a3b03151b7c73bfc'),
+    item: 'apple',
+    price: 2.5
+  }
+]
+demodb> db.sales.aggregate([
+... {
+... $project: {
+... region: 0
+... }
+... }
+... ])
+[
+  {
+    _id: ObjectId('670e0314a3b03151b7c73bf8'),
+    item: 'apple',
+    quantity: 10,
+    price: 2.5
+  },
+  {
+    _id: ObjectId('670e0314a3b03151b7c73bf9'),
+    item: 'orange',
+    quantity: 5,
+    price: 3
+  },
+  {
+    _id: ObjectId('670e0314a3b03151b7c73bfa'),
+    item: 'apple',
+    quantity: 6,
+    price: 2.5
+  },
+  {
+    _id: ObjectId('670e0314a3b03151b7c73bfb'),
+    item: 'orange',
+    quantity: 8,
+    price: 3
+  },
+  {
+    _id: ObjectId('670e0314a3b03151b7c73bfc'),
+    item: 'apple',
+    quantity: 7,
+    price: 2.5
+  }
+]
+demodb> db.sales.aggregate([
+... {
+... $project: {
+... item: 1,
+... totalCost: { $multiply: ["$quantity", "$price"] }
+... }
+... }
+... ])
+[
+  {
+    _id: ObjectId('670e0314a3b03151b7c73bf8'),
+    item: 'apple',
+    totalCost: 25
+  },
+  {
+    _id: ObjectId('670e0314a3b03151b7c73bf9'),
+    item: 'orange',
+    totalCost: 15
+  },
+  {
+    _id: ObjectId('670e0314a3b03151b7c73bfa'),
+    item: 'apple',
+    totalCost: 15
+  },
+  {
+    _id: ObjectId('670e0314a3b03151b7c73bfb'),
+    item: 'orange',
+    totalCost: 24
+  },
+  {
+    _id: ObjectId('670e0314a3b03151b7c73bfc'),
+    item: 'apple',
+    totalCost: 17.5
+  }
+]
+demodb> db.sales.aggregate([
+... {
+... $project: {
+... totalQuantity: "$quantity",
+... price: 1
+... }
+... }
+... ])
+[
+  {
+    _id: ObjectId('670e0314a3b03151b7c73bf8'),
+    price: 2.5,
+    totalQuantity: 10
+  },
+  {
+    _id: ObjectId('670e0314a3b03151b7c73bf9'),
+    price: 3,
+    totalQuantity: 5
+  },
+  {
+    _id: ObjectId('670e0314a3b03151b7c73bfa'),
+    price: 2.5,
+    totalQuantity: 6
+  },
+  {
+    _id: ObjectId('670e0314a3b03151b7c73bfb'),
+    price: 3,
+    totalQuantity: 8
+  },
+  {
+    _id: ObjectId('670e0314a3b03151b7c73bfc'),
+    price: 2.5,
+    totalQuantity: 7
+  }
+]
+demodb> db.sales.aggregate([
+... { $skip: 2 },
+... { $limit: 3 }
+... ])
+[
+  {
+    _id: ObjectId('670e0314a3b03151b7c73bfa'),
+    item: 'apple',
+    quantity: 6,
+    price: 2.5,
+    region: 'East'
+  },
+  {
+    _id: ObjectId('670e0314a3b03151b7c73bfb'),
+    item: 'orange',
+    quantity: 8,
+    price: 3,
+    region: 'North'
+  },
+  {
+    _id: ObjectId('670e0314a3b03151b7c73bfc'),
+    item: 'apple',
+    quantity: 7,
+    price: 2.5,
+    region: 'West'
+  }
+]
+demodb> db.sales.createIndex({ "item": 1 })
+item_1
+demodb> db.sales.getIndexes()
+[
+  { v: 2, key: { _id: 1 }, name: '_id_' },
+  { v: 2, key: { item: 1 }, name: 'item_1' }
+]
+demodb> db.sales.createIndex({ "item": 1, "region": 1 })
+item_1_region_1
+demodb> db.sales.find({ "item": "apple", "region": "North" })
+[
+  {
+    _id: ObjectId('670e0314a3b03151b7c73bf8'),
+    item: 'apple',
+    quantity: 10,
+    price: 2.5,
+    region: 'North'
+  }
+]
+demodb> db.sales.dropIndex({ "item": 1 })
+{ nIndexesWas: 3, ok: 1 }
+demodb> db.sales.dropIndexes()
+{
+  nIndexesWas: 2,
+  msg: 'non-_id indexes dropped for collection',
+  ok: 1
+}
+demodb> var mapFunction = function() {
+... emit(this.item, this.quantity);
+... };
+
+demodb> var reduceFunction = function(keyItem, valuesQuantities) {
+... return Array.sum(valuesQuantities);
+... };
+
+demodb> db.sales.mapReduce(
+... mapFunction,                   // The map function to process each document
+... reduceFunction,                // The reduce function to aggregate results
+... { out: "total_quantity_per_item" } // Options for output collection
+... );
+DeprecationWarning: Collection.mapReduce() is deprecated. Use an aggregation instead.
+See https://docs.mongodb.com/manual/core/map-reduce for details.
+{ result: 'total_quantity_per_item', ok: 1 }
+demodb> db.total_quantity_per_item.find().pretty();
+[ { _id: 'apple', value: 23 }, { _id: 'orange', value: 13 } ]
