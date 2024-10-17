@@ -26,12 +26,12 @@ local    80.00 KiB
 test> use demodb
 switched to db demodb
 demodb> db.sales.insertMany([
-... { "item": "apple", "quantity": 10, "price": 2.5, "region": "North" },
-... { "item": "orange", "quantity": 5, "price": 3, "region": "South" },
-... { "item": "apple", "quantity": 6, "price": 2.5, "region": "East" },
-... { "item": "orange", "quantity": 8, "price": 3, "region": "North" },
-... { "item": "apple", "quantity": 7, "price": 2.5, "region": "West" }
-... ])
+ { "item": "apple", "quantity": 10, "price": 2.5, "region": "North" },
+ { "item": "orange", "quantity": 5, "price": 3, "region": "South" },
+ { "item": "apple", "quantity": 6, "price": 2.5, "region": "East" },
+ { "item": "orange", "quantity": 8, "price": 3, "region": "North" },
+ { "item": "apple", "quantity": 7, "price": 2.5, "region": "West" }
+ ])
 {
   acknowledged: true,
   insertedIds: {
@@ -43,38 +43,38 @@ demodb> db.sales.insertMany([
   }
 }
 demodb> db.sales.aggregate([
-... {
-... $group: {
-... _id: "$item",
-... totalRevenue: { $sum: { $multiply: ["$quantity", "$price"] } }
-... }
-... }
-... ])
+ {
+ $group: {
+ _id: "$item",
+ totalRevenue: { $sum: { $multiply: ["$quantity", "$price"] } }
+ }
+ }
+ ])
 [
   { _id: 'apple', totalRevenue: 57.5 },
   { _id: 'orange', totalRevenue: 39 }
 ]
 demodb> db.sales.aggregate([
-... {
-... $group: {
-... _id: "$item",
-... totalRevenue: { $sum: { $multiply: ["$quantity", "$price"] } }
-... }
-... },
-... { $sort: { totalRevenue: -1 } }
-... ])
+ {
+ $group: {
+ _id: "$item",
+ totalRevenue: { $sum: { $multiply: ["$quantity", "$price"] } }
+ }
+ },
+ { $sort: { totalRevenue: -1 } }
+ ])
 [
   { _id: 'apple', totalRevenue: 57.5 },
   { _id: 'orange', totalRevenue: 39 }
 ]
 demodb> db.sales.aggregate([
-... {
-... $match: {
-... item: "apple",
-... region: "North"
-... }
-... }
-... ]).pretty()
+ {
+ $match: {
+ item: "apple",
+ region: "North"
+ }
+ }
+ ]).pretty()
 [
   {
     _id: ObjectId('670e0314a3b03151b7c73bf8'),
@@ -85,13 +85,13 @@ demodb> db.sales.aggregate([
   }
 ]
 demodb> db.sales.aggregate([
-... {
-... $project: {
-... item: 1,
-... price: 1
-... }
-... }
-... ])
+ {
+ $project: {
+ item: 1,
+ price: 1
+ }
+ }
+ ])
 [
   {
     _id: ObjectId('670e0314a3b03151b7c73bf8'),
@@ -120,12 +120,12 @@ demodb> db.sales.aggregate([
   }
 ]
 demodb> db.sales.aggregate([
-... {
-... $project: {
-... region: 0
-... }
-... }
-... ])
+ {
+ $project: {
+ region: 0
+ }
+ }
+ ])
 [
   {
     _id: ObjectId('670e0314a3b03151b7c73bf8'),
@@ -159,13 +159,13 @@ demodb> db.sales.aggregate([
   }
 ]
 demodb> db.sales.aggregate([
-... {
-... $project: {
-... item: 1,
-... totalCost: { $multiply: ["$quantity", "$price"] }
-... }
-... }
-... ])
+ {
+ $project: {
+ item: 1,
+ totalCost: { $multiply: ["$quantity", "$price"] }
+ }
+ }
+ ])
 [
   {
     _id: ObjectId('670e0314a3b03151b7c73bf8'),
@@ -194,13 +194,13 @@ demodb> db.sales.aggregate([
   }
 ]
 demodb> db.sales.aggregate([
-... {
-... $project: {
-... totalQuantity: "$quantity",
-... price: 1
-... }
-... }
-... ])
+ {
+ $project: {
+ totalQuantity: "$quantity",
+ price: 1
+ }
+ }
+ ])
 [
   {
     _id: ObjectId('670e0314a3b03151b7c73bf8'),
@@ -229,9 +229,9 @@ demodb> db.sales.aggregate([
   }
 ]
 demodb> db.sales.aggregate([
-... { $skip: 2 },
-... { $limit: 3 }
-... ])
+ { $skip: 2 },
+ { $limit: 3 }
+ ])
 [
   {
     _id: ObjectId('670e0314a3b03151b7c73bfa'),
@@ -283,18 +283,18 @@ demodb> db.sales.dropIndexes()
   ok: 1
 }
 demodb> var mapFunction = function() {
-... emit(this.item, this.quantity);
-... };
+ emit(this.item, this.quantity);
+ };
 
 demodb> var reduceFunction = function(keyItem, valuesQuantities) {
-... return Array.sum(valuesQuantities);
-... };
+ return Array.sum(valuesQuantities);
+ };
 
 demodb> db.sales.mapReduce(
-... mapFunction,                   // The map function to process each document
-... reduceFunction,                // The reduce function to aggregate results
-... { out: "total_quantity_per_item" } // Options for output collection
-... );
+ mapFunction,                   // The map function to process each document
+ reduceFunction,                // The reduce function to aggregate results
+ { out: "total_quantity_per_item" } // Options for output collection
+ );
 DeprecationWarning: Collection.mapReduce() is deprecated. Use an aggregation instead.
 See https://docs.mongodb.com/manual/core/map-reduce for details.
 { result: 'total_quantity_per_item', ok: 1 }
